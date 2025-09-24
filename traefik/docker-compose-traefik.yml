@@ -5,11 +5,11 @@ services:
     image: traefik:latest
     container_name: traefik
     command:
-      - "--api.insecure=true"                # painel web em :8080
-      - "--providers.docker=true"            # monitora containers docker
+      - "--api.insecure=true"                
+      - "--providers.docker=true"            
       - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"      # HTTP
-      - "--entrypoints.websecure.address=:443" # HTTPS
+      - "--entrypoints.web.address=:80"      
+      - "--entrypoints.websecure.address=:443" 
     ports:
       - "80:80"
       - "443:443"

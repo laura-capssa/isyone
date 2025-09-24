@@ -12,7 +12,7 @@
       - ADMIN_PASSWORD=admin
     volumes:
       - odoo_data_alfa:/var/lib/odoo
-      - ./extra-addons:/mnt/extra-addons   # <- adicione esta linha
+      - ./extra-addons:/mnt/extra-addons  
     restart: always
     networks:
       - traefik

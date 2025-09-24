@@ -16,18 +16,18 @@ ENV_FILE=".env.${CLIENT_NAME}"
 echo " Provisionando cliente: $CLIENT_NAME"
 echo " Domínio: $DOMAIN"
 
-# Verificar se o cliente já existe
+
 if [ -f "$COMPOSE_FILE" ]; then
   echo "  Ambiente para o cliente '$CLIENT_NAME' já existe!"
   exit 1
 fi
 
-# Gerar senhas seguras
+
 echo " Gerando senhas seguras..."
 POSTGRES_PASSWORD=$(openssl rand -base64 16 | tr -d '/+' | cut -c1-16)
 ODOO_ADMIN_PASSWORD=$(openssl rand -base64 12 | tr -d '/+' | cut -c1-12)
 
-# Criar arquivo .env para o cliente
+
 echo " Criando arquivo de variáveis: $ENV_FILE"
 cat > "$ENV_FILE" << ENVEOF
 # Ambiente do Cliente ${CLIENT_NAME}
@@ -43,7 +43,7 @@ POSTGRES_DB=odoo_${CLIENT_NAME}
 ODOO_ADMIN_PASSWORD=${ODOO_ADMIN_PASSWORD}
 ENVEOF
 
-# Criar docker-compose específico para o cliente
+
 echo " Criando arquivo Docker Compose: $COMPOSE_FILE"
 cat > "$COMPOSE_FILE" << COMPOSEEOF
 version: '3.8'
