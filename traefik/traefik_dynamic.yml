@@ -1,0 +1,13 @@
+http:
+  routers:
+    odoo-alfa:
+      rule: "Host(`alfa.isy.one`)"
+      service: "odoo-alfa"
+      entryPoints:
+        - "web"
+  
+  services:
+    odoo-alfa:
+      loadBalancer:
+        servers:
+          - url: "http://odoo_alfa:8069"

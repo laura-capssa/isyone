@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  odoo:
+    image: odoo:18.0
+    container_name: odoo_${CLIENT_NAME}
+    depends_on:
+      - db
+    environment:
+      - HOST=db
+      - USER=${POSTGRES_USER}
+      - PASSWORD=${POSTGRES_PASSWORD}
+      - DB_NAME=${POSTGRES_DB}
+      - ADMIN_PASSWORD=${ODOO_ADMIN_PASSWORD}
+    volumes:
+      - odoo_data_${CLIENT_NAME}:/var/lib/odoo
+    restart: always
+    networks:
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.odoo_${CLIENT_NAME}.rule=Host(`${CLIENT_NAME}.isy.one`)"
+      - "traefik.http.routers.odoo_${CLIENT_NAME}.entrypoints=web"
+      - "traefik.http.services.odoo_${CLIENT_NAME}.loadbalancer.server.port=8069"
+
+  db:
+    image: postgres:15
+    container_name: postgres_${CLIENT_NAME}
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - pgdata_${CLIENT_NAME}:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - traefik
+
+volumes:
+  odoo_data_${CLIENT_NAME}:
+  pgdata_${CLIENT_NAME}:
+
+networks:
+  traefik:
+    external: true

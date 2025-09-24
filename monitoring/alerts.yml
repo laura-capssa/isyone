@@ -1,0 +1,30 @@
+
+groups:
+  - name: odoo_alerts
+    rules:
+      - alert: OdooDown
+        expr: up{job="odoo"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Odoo indisponível ({{ $labels.instance }})"
+          description: "O serviço Odoo está fora do ar há mais de 1 minuto."
+
+      - alert: OdooHighResponseTime
+        expr: rate(odoo_http_request_duration_seconds_sum[5m]) / rate(odoo_http_request_duration_seconds_count[5m]) > 2
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Alta latência no Odoo ({{ $labels.instance }})"
+          description: "O tempo de resposta do Odoo está acima de 2 segundos."
+
+      - alert: PostgreSQLDown
+        expr: up{job="postgres"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "PostgreSQL indisponível ({{ $labels.instance }})"
+          description: "O banco de dados PostgreSQL está fora do ar."
