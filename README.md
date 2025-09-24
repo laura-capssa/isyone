@@ -221,4 +221,4 @@ Se algum link falhar, verifique logs dos contêineres relevantes (`docker logs o
   - Rede Interna: Certifique-se de que Prometheus acesse contêineres via rede `traefik` (use `host.docker.internal` se necessário).
 - **Erros de Permissão**: Execute o script como non-root; corrija com `chmod +x provision_client.sh` e `chown -R $USER:$USER .`.
 - **DNS/Subdomínio**: Teste com `curl http://alfa.isy.one` ou edite `/etc/hosts` para testes locais (ex: `127.0.0.1 alfa.isy.one`).
-- **Logs**: Geral: `docker logs <nome_container>` (ex: `
+- **Logs**: Geral: `docker logs <nome_container>` `
