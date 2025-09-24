@@ -1,4 +1,3 @@
-
 global:
   scrape_interval: 15s
   evaluation_interval: 15s
@@ -6,18 +5,10 @@ global:
 scrape_configs:
   - job_name: 'prometheus'
     static_configs:
-      - targets: ['localhost:9090']
-
-  - job_name: 'node-exporter'
-    static_configs:
-      - targets: ['node-exporter:9100']
+      - targets: ['prometheus:9090']
 
   - job_name: 'odoo'
     static_configs:
-      - targets: ['odoo_alfa:8069']
-    scrape_interval: 30s
-
-  - job_name: 'docker'
-    static_configs:
-      - targets: ['host.docker.internal:9323']
-    scrape_interval: 30s
+      - targets: ['odoo_alfa:8069']  
+    metrics_path: '/metrics'
+    scrape_interval: 15s

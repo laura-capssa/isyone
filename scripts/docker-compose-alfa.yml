@@ -1,45 +1,24 @@
-version: '3.8'
-
-services:
-  odoo:
+  odoo_alfa:
     image: odoo:18.0
-    container_name: odoo_${CLIENT_NAME}
+    container_name: odoo_alfa
     depends_on:
-      - db
+      - db_alfa
     environment:
-      - HOST=db
-      - USER=${POSTGRES_USER}
-      - PASSWORD=${POSTGRES_PASSWORD}
-      - DB_NAME=${POSTGRES_DB}
-      - ADMIN_PASSWORD=${ODOO_ADMIN_PASSWORD}
+      - DB_HOST=db_alfa
+      - DB_PORT=5432
+      - DB_USER=odoo_user
+      - DB_PASSWORD=nova_senha
+      - DB_NAME=odoo_db_alfa
+      - ADMIN_PASSWORD=admin
     volumes:
-      - odoo_data_${CLIENT_NAME}:/var/lib/odoo
+      - odoo_data_alfa:/var/lib/odoo
+      - ./extra-addons:/mnt/extra-addons   # <- adicione esta linha
     restart: always
     networks:
       - traefik
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.odoo_${CLIENT_NAME}.rule=Host(`${CLIENT_NAME}.isy.one`)"
-      - "traefik.http.routers.odoo_${CLIENT_NAME}.entrypoints=web"
-      - "traefik.http.services.odoo_${CLIENT_NAME}.loadbalancer.server.port=8069"
-
-  db:
-    image: postgres:15
-    container_name: postgres_${CLIENT_NAME}
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-    volumes:
-      - pgdata_${CLIENT_NAME}:/var/lib/postgresql/data
-    restart: always
-    networks:
-      - traefik
-
-volumes:
-  odoo_data_${CLIENT_NAME}:
-  pgdata_${CLIENT_NAME}:
-
-networks:
-  traefik:
-    external: true
+      - "traefik.http.routers.odoo_alfa.rule=Host(`alfa.isy.one`)"
+      - "traefik.http.routers.odoo_alfa.entrypoints=web"
+      - "traefik.http.services.odoo_alfa.loadbalancer.server.port=8069"
+      - "traefik.docker.network=traefik"

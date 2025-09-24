@@ -75,11 +75,12 @@ services:
     depends_on:
       - postgres_${CLIENT_NAME}
     environment:
-      - HOST=postgres_${CLIENT_NAME}
-      - USER=\${POSTGRES_USER}
-      - PASSWORD=\${POSTGRES_PASSWORD}
-      - DB_NAME=\${POSTGRES_DB}
-      - ADMIN_PASSWORD=\${ODOO_ADMIN_PASSWORD}
+      - ODOO_DB_HOST=postgres_${CLIENT_NAME}
+      - ODOO_DB_USER=${POSTGRES_USER}
+      - ODOO_DB_PASSWORD=${POSTGRES_PASSWORD}
+      - ODOO_DB_NAME=${POSTGRES_DB}
+      - ODOO_ADMIN_PASSWORD=${ODOO_ADMIN_PASSWORD}
+
     volumes:
       - odoo_data_${CLIENT_NAME}:/var/lib/odoo
     networks:

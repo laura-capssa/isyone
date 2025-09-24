@@ -9,12 +9,14 @@ services:
     environment:
       - ODOO_DB_HOST=db
       - ODOO_DB_PORT=5432
-      - ODOO_DB_USER=${POSTGRES_USER}
-      - ODOO_DB_PASSWORD=${POSTGRES_PASSWORD}
-      - ODOO_DB_NAME=${POSTGRES_DB}
-      - ODOO_ADMIN_PASSWORD=${ODOO_ADMIN_PASSWORD}
+      - ODOO_DB_USER=odoo_user
+      - ODOO_DB_PASSWORD=nova_senha
+      - ODOO_DB_NAME=odoo_db_alfa
+      - ODOO_ADMIN_PASSWORD=admin
     volumes:
       - odoo_data_alfa:/var/lib/odoo
+      - ./odoo.conf:/etc/odoo/odoo.conf
+      - ./extra-addons:/var/lib/odoo/extra-addons
     restart: always
     networks:
       - traefik
@@ -28,9 +30,9 @@ services:
     image: postgres:15
     container_name: postgres_alfa
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=odoo_user
+      - POSTGRES_PASSWORD=nova_senha
+      - POSTGRES_DB=odoo_db_alfa
     volumes:
       - pgdata_alfa:/var/lib/postgresql/data
     restart: always
